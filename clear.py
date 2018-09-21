@@ -8,3 +8,4 @@ graph = Graph(
 )
 
 graph.delete_all()
+graph.delete_all()
