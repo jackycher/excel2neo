@@ -23,16 +23,21 @@ tx.commit()
 data = pd.read_excel("data.xls", header=None)
 
 col = data.columns
+
+dic1={}
+
 for indexs in data.index:
     notes = data.loc[indexs].values
     print(notes[1])
     tx = graph.begin()
     nname = 'n'+re.sub('[\/:*?"<>|·（）-]', '', notes[1])
-    a = Node(nname,  label=Cname, url=notes[0], name=notes[1])
+    a = Node(nname,  label=Cname, url=notes[0], name=notes[1], desc=notes[2])
     tx.create(a)
     ca = Relationship(c, "实体", a)
     tx.create(ca)
     tx.commit()
+    dic1 = notes[4]
+    print(dic1)
 
 
 
