@@ -9,5 +9,3 @@ graph = Graph(
 
 
 graph.delete_all()
-fileName = re.sub('[\/:*?"<>|·]','',title)#去掉非法字符
-print re.sub
