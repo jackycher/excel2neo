@@ -1,5 +1,6 @@
 from py2neo import Node, Relationship, Graph
 import pandas as pd
+import numpy as np
 import re
 from os import path
 
@@ -16,7 +17,7 @@ Cname = (dir1[-1])
 
 #建立路径名称类
 tx = graph.begin()
-c = Node(Cname, name=Cname, label="Class")
+c = Node("Class", name=Cname, label="Class")
 tx.create(c)
 tx.commit()
 
@@ -31,20 +32,25 @@ for indexs in data.index:
     print(notes[1])
     tx = graph.begin()
     nname = 'n'+re.sub('[\/:*?"<>|·（）-]', '', notes[1])
-    a = Node(nname,  label=Cname, url=notes[0], name=notes[1], desc=notes[2])
+
+    a = Node(Cname, url=notes[0], name=notes[1], desc=notes[2])
     tx.create(a)
     ca = Relationship(c, "实体", a)
     tx.create(ca)
     tx.commit()
-    dic1 = notes[4]
-    print(dic1)
+
+    if notes[4] != np.nan:
+        print(notes[4])
+        key1, values1 = notes[4].split(':')
+        print(key1, values1)
 
 
 
-'''tx = graph.begin()
-a = Node("Person", name="Alice")
-tx.create(a)
-b = Node("Person", name="Bob")
-ab = Relationship(a, "KNOWS", b)
-tx.create(ab)
-tx.commit()'''
+    '''tx = graph.begin()
+    a = Node("Person", name="Alice")
+    tx.create(a)
+    b = Node("Person", name="Bob")
+    ab = Relationship(a, "KNOWS", b)
+    tx.create(ab)
+    tx.commit()'''
+
