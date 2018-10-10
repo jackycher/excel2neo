@@ -5,9 +5,9 @@ def BFSdir(rootDir):
     list_dirs = os.walk(rootDir)
     for root, dirs, files in list_dirs:
         for d in dirs:
-            print(os.path.join(root, d))
+            print( d)
         for f in files:
-            print(os.path.join(root, f))
+            print( f)
 
 
 
@@ -15,10 +15,12 @@ def BFSdir(rootDir):
 def DFSdir(rootDir):
     for lists in os.listdir(rootDir):
         path = os.path.join(rootDir, lists)
-        print(path)
+
         if os.path.isdir(path):
             DFSdir(path)
+        else:
+            print(path)
 
-BFSdir('E:\\dir')
+BFSdir('C:\\Users\\Xujing\\PycharmProjects\\csvtoneo\\data')
 print('------------------------------')
-DFSdir('E:\\dir')
+DFSdir('C:\\Users\\Xujing\\PycharmProjects\\csvtoneo\\data')
