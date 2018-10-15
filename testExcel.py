@@ -33,6 +33,8 @@ tx.commit()
 
 
 data = pd.read_excel("data.xls", header=None)
+repdic = {'\n': '', '{': '{\'', '}': '\'}', ':': '\':\'', 'http\':\'//': 'http://'}
+data1 = data.replace(repdic, regex=True)
 
 
 '''
