@@ -1,55 +1,51 @@
 from py2neo import Node, Relationship, Graph
 import pandas as pd
+import ast
 import numpy as np
 import re
 import os
 
-'''
+
 graph = Graph("bolt://localhost:7687", username="neo4j", password="1039")
 
 # 删除数据库原数据
 graph.delete_all()
 
-rootDir = "//data"
 
-# 建立顶级类Thing
-tx = graph.begin()
-root = Node("Class", name="Thing")
-tx.create(root)
-tx.commit()
-
-# 获取路径
-dir1 = path.dirname(__file__).split('/')
-Cname = (dir1[-1])
-
-# 建立路径名称类
-tx = graph.begin()
-troot = Node("Class", name=Cname, label="Class")
-tx.create(troot)
-roott = Relationship(root, "子类", troot)
-tx.create(roott)
-tx.commit()
-'''
-
-
-data = pd.read_excel("data.xls", header=None)
+data = pd.read_excel("data333.xls", header=None)
 repdic = {'\n': '', '{': '{\'', '}': '\'}', ':': '\':\'', 'http\':\'//': 'http://'}
 data1 = data.replace(repdic, regex=True)
 
 
-'''
-col = data.columns
+print(data1.index)
+print(data1.shape)
+print(data1.iloc)
+print(data1.loc)
+print(data1.isna())
 
-dic1={}
+for indexs in data1.index:
+    print(indexs)
+    print(type(data1.loc[indexs]))
+    notes = data1.loc[indexs].dropna()
+    prodic = {}
+    print(type(prodic))
+    for values1 in notes.index:
 
-for indexs in data.index:
-    notes = data.loc[indexs].values
-    print(notes[1])
+
+        print(values1)
+        print(type(notes.loc[values1]))
+        print(notes.loc[values1])
+
+        if(values1>=3):
+            notes1 = ast.literal_eval(notes.loc[values1])
+            prodic.update(**notes1)
+            print(type(ast.literal_eval(notes.loc[values1])))
     tx = graph.begin()
-    nname = 'n'+re.sub('[\/:*?"<>|·（）-]', '', notes[1])
-    a = Node(Cname, url=notes[0], name=notes[1], desc=notes[2])
-    tx.create(a)
-    ta = Relationship(troot, "实体", a)
-    tx.create(ta)
+    root = Node("Entity", **prodic)
+    tx.create(root)
     tx.commit()
-'''
+
+
+
+
+

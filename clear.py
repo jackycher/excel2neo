@@ -1,5 +1,5 @@
 from py2neo import Graph
-import re
+
 
 graph = Graph(
     "http://localhost:7474",
