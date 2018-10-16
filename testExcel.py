@@ -13,20 +13,29 @@ graph.delete_all()
 
 
 data = pd.read_excel("data333.xls", header=None)
-repdic = {'\n': '', '{': '{\'', '}': '\'}', ':': '\':\'', 'http\':\'//': 'http://'}
+data[0] = "{url:"+data[0]+"}"
+data[1] = "{name:"+data[1]+"}"
+data[2] = "{简介:"+data[2]+"}"
+
+repdic = {'\"': '\'', '\n': '', '^{': '{\"', '}$': '\"}'}
 data1 = data.replace(repdic, regex=True)
 
 
-print(data1.index)
-print(data1.shape)
-print(data1.iloc)
-print(data1.loc)
-print(data1.isna())
+# print(data1.index)
+# print(data1.shape)
+# print(data1.iloc)
+# print(data1.loc)
+
 
 for indexs in data1.index:
-    print(indexs)
-    print(type(data1.loc[indexs]))
+    #     print(indexs)
+    #    print(type(data1.loc[indexs]))
+
     notes = data1.loc[indexs].dropna()
+    #  print("dropna")
+    notestmp = notes.map(lambda x: x.split(":"))
+    notes = notestmp.map((lambda x: x[0] + '\":\"')) + notestmp.map(lambda x: ':'.join(x[1:]))
+    notes = notes.str.replace('\n', '')
     prodic = {}
     print(type(prodic))
     for values1 in notes.index:
@@ -36,14 +45,19 @@ for indexs in data1.index:
         print(type(notes.loc[values1]))
         print(notes.loc[values1])
 
-        if(values1>=3):
-            notes1 = ast.literal_eval(notes.loc[values1])
-            prodic.update(**notes1)
-            print(type(ast.literal_eval(notes.loc[values1])))
+
+        notes1 = ast.literal_eval(notes.loc[values1])
+        print(type(notes1))
+        prodic.update(**notes1)
+        print(type(ast.literal_eval(notes.loc[values1])))
+
+
     tx = graph.begin()
     root = Node("Entity", **prodic)
     tx.create(root)
     tx.commit()
+    
+
 
 
 
