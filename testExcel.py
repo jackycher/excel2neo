@@ -45,17 +45,14 @@ for indexs in data1.index:
     print(type(prodic))
     for values1 in notes.index:
 
-
         print(values1)
         print(type(notes.loc[values1]))
         print(notes.loc[values1])
-
 
         notes1 = ast.literal_eval(notes.loc[values1])
         print(type(notes1))
         prodic.update(**notes1)
         print(type(ast.literal_eval(notes.loc[values1])))
-
 
     tx = graph.begin()
     ent = Node("Entity", **prodic)
