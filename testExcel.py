@@ -11,6 +11,11 @@ graph = Graph("bolt://localhost:7687", username="neo4j", password="1039")
 # 删除数据库原数据
 graph.delete_all()
 
+# 建立顶级类Thing
+tx = graph.begin()
+root = Node("Class", name="Thing")
+tx.create(root)
+tx.commit()
 
 data = pd.read_excel("data333.xls", header=None)
 data[0] = "{url:"+data[0]+"}"
@@ -53,8 +58,12 @@ for indexs in data1.index:
 
 
     tx = graph.begin()
-    root = Node("Entity", **prodic)
-    tx.create(root)
+    ent = Node("Entity", **prodic)
+    re1 = Relationship(root, "实体", ent)
+    re2 = Relationship(ent, "类", root)
+    tx.create(ent)
+    tx.create(re1)
+    tx.create(re2)
     tx.commit()
     
 
