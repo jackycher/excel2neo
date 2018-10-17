@@ -1,14 +1,14 @@
 import os
 
+
 # 广度遍历文件
 def BFSdir(rootDir):
     list_dirs = os.walk(rootDir)
     for root, dirs, files in list_dirs:
         for d in dirs:
-            print( d)
+            print(d)
         for f in files:
-            print( f)
-
+            print(f)
 
 
 # 深度遍历文件
@@ -20,6 +20,7 @@ def DFSdir(rootDir):
             DFSdir(path)
         else:
             print(path)
+
 
 BFSdir('C:\\Users\\Xujing\\PycharmProjects\\csvtoneo\\data')
 print('------------------------------')
