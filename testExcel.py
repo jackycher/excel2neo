@@ -69,3 +69,6 @@ for indexs in data1.index:
     tx.create(re1)
     tx.create(re2)
     tx.commit()
+
+
+    
