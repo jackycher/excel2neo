@@ -1,7 +1,11 @@
 from py2neo import Node, Relationship, Graph
 import pandas as pd
 import ast
+import pickle
+from PIL import Image
 
+# 读取img并序列化
+im = pickle.dumps(Image.open('1.jpg'))
 
 # 创建图数据库连接
 graph = Graph("bolt://localhost:7687", username="neo4j", password="1039")
@@ -13,6 +17,27 @@ graph.delete_all()
 tx = graph.begin()
 root = Node("Class", name="Thing")
 tx.create(root)
+tx.commit()
+
+# 建立类medical
+tx = graph.begin()
+rootmedical = Node("Thing", name="medical")
+remedical = Relationship(root, "包含", rootmedical)
+remedical2 = Relationship(rootmedical, "属于", root)
+tx.create(remedical)
+tx.create(remedical)
+tx.create(remedical2)
+tx.commit()
+
+# 建立类医学
+tx = graph.begin()
+rootyx = Node("medical", name="医学")
+remedical = Relationship(rootmedical, "包含", rootyx)
+remedical2 = Relationship(rootyx, "属于", rootmedical)
+tx.create(rootyx)
+tx.create(remedical)
+tx.create(remedical2)
+
 tx.commit()
 
 # 读入data数据表（不要表头）
@@ -60,10 +85,11 @@ for indexs in data1.index:
     # 开始写入图数据库
     tx = graph.begin()
     # 定义节点，并将原每行的数据合并成的字典作为属性参数传入
-    ent = Node("Entity", **prodic)
+    # ent = Node("实体", "医学", img=im, **prodic)
+    ent = Node("实体", "医学", **prodic)
     # 定义类到实体、实体到类的关系
-    re1 = Relationship(root, "实体", ent)
-    re2 = Relationship(ent, "类", root)
+    re1 = Relationship(rootyx, "实体", ent)
+    re2 = Relationship(ent, "类", rootyx)
     # 建立节点和关系并提交数据库
     tx.create(ent)
     tx.create(re1)
@@ -71,4 +97,4 @@ for indexs in data1.index:
     tx.commit()
 
 
-    
+
