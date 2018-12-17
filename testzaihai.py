@@ -71,7 +71,7 @@ for indexs in data1.index:
     # 然后将第一个:符号前的数据添加":"，再合并以后的数组数据并补充原:符号
     # 目的是保证将第一个:替换成":"，其他不变
     notestmp = notes.map(lambda x: x.split(":"))
-    notes = notestmp.map((lambda x: x[0].replace(' ', '') + '\":\"')) + notestmp.map(lambda x: ':'.join(x[1:]))
+    notes = notestmp.map((lambda x: x[0] + '\":\"')) + notestmp.map(lambda x: ':'.join(x[1:]))
 
     # 定义一个空字典，以保证后面使用.update方法合并字典数据
     prodic = {}
