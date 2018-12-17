@@ -5,7 +5,7 @@ import pickle
 from PIL import Image
 
 # 读取img并序列化
-im = pickle.dumps(Image.open('1.jpg'))
+# im = pickle.dumps(Image.open('1.jpg'))
 
 # 创建图数据库连接
 graph = Graph("bolt://localhost:7687", username="neo4j", password="1039")
